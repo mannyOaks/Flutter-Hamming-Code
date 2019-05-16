@@ -21,8 +21,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // realiza el procedimiento de codificacion
   hamming() {
-    if (!textController.text.contains('0') ||
-        !textController.text.contains('1')) {
+    final exp = RegExp(r"^[01]+$");
+    if (!exp.hasMatch(textController.text)) {
       this._displayErrDialog('No se ingresó un código válido');
       return null;
     }
@@ -97,7 +97,16 @@ class _HomeScreenState extends State<HomeScreen> {
     showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
-            title: const Text("Error"),
+            title: Row(
+              children: <Widget>[
+                Icon(
+                  Icons.error,
+                  color: Colors.red,
+                ),
+                Padding(padding: EdgeInsets.only(right: 10)),
+                Text("Error", style: TextStyle(color: Colors.red))
+              ],
+            ),
             content: Text(msg),
             actions: <Widget>[
               FlatButton(
